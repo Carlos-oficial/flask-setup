@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0","flask>=2.2.2"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "flask-setup"
+version = "0.1.0"
+authors = [
+  { name="Carlos Ribeiro", email="carlosribeiro2003oficial@gmail.com" },
+]
+description = "A script for creating a flask web app"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/carlos-oficial/flask-setup"
