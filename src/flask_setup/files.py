@@ -1,3 +1,20 @@
+DOCKERFILE = r"""
+# syntax=docker/dockerfile:1
+
+FROM python:3.8-slim-buster
+
+WORKDIR /{{$APP_NAME}}
+
+# COPY requirements.txt requirements.txt
+# RUN pip3 install -r requirements.txt
+
+RUN pip install flask
+
+COPY . .
+
+CMD [ "python3", "-m" , "flask", "run"]
+"""
+
 BASE_HTML = r"""
 <!doctype html>
 <html lang="en">
@@ -124,7 +141,7 @@ def create_app(test_config=None):
 
 
 if __name__ == "__main__":
-    create_app().run()
+    create_app().run(debug=True)
 
 """
 

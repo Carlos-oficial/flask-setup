@@ -29,14 +29,16 @@ print("templates and static paths created")
 create_auth_bp = valid = False
 while not valid:
     auth_bp = input(
-        "Would you like to include an auth blueprint? (visit https://flask.palletsprojects.com/en/2.2.x/blueprints/ for blueprint documentation) y/n"
+        """Would you like to include an auth blueprint?
+        (visit https://flask.palletsprojects.com/en/2.2.x/blueprints/ for blueprint documentation)
+        (y/n) """
     )
     valid = auth_bp in ["Y", "N", "y", "n"]
     create_auth_bp = auth_bp in ["Y", "y"]
     if not valid:
         print("y/n?")
 
-with open("__init__.py", "w") as f:
+with open("app.py", "w") as f:
     f.write(files.init_py(auth=create_auth_bp))
 
 with open("routes.py", "w") as f:
@@ -49,6 +51,13 @@ with open("api.py", "w") as f:
 with open("db/db.py", "w") as f:
     f.write(files.DB_PY)
 
+lib.parse_and_replace(
+    files.DOCKERFILE,
+    os.path.join(app_path, "Dockerfile"),
+    r"{{$APP_NAME}}",
+    app_name.lower(),
+)
+
 with open("db/schema.sql",'w') as _: pass
 if create_auth_bp:
     with open("auth.py", "w") as f:
@@ -59,3 +68,7 @@ if create_auth_bp:
     with open('templates/auth/base_form.html','w') as f: f.write(files.BASE_FORM_HTML)
     with open('templates/auth/login.html','w') as f: f.write(files.LOGIN_HTML)
     with open('templates/auth/register.html','w') as f: f.write(files.REGISTER_HTML)
+
+print(f"""You may use a docker container with `docker build --tag {app_name.lower()} .` and `docker run` to run it
+Setting up a virtual environment is recomended
+run `cd {app_name}` and `flask run` or `python -m flask run` to run your app! """)
